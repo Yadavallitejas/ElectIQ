@@ -3,6 +3,12 @@ import { useDropzone } from 'react-dropzone';
 import { UploadCloud, FileText, Loader2, FileUp, ClipboardType } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import * as pdfjsLib from 'pdfjs-dist/build/pdf.mjs';
+import pdfWorkerSrc from 'pdfjs-dist/build/pdf.worker.mjs?url';
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
+
+import mammoth from 'mammoth/mammoth.browser.js';
+
 const SAMPLES = [
   {
     label: '📋 Property Tax Notice',
@@ -23,11 +29,12 @@ export default function DocumentUpload({ onAnalyze, isLoading }) {
   const [text, setText] = useState('');
   const [file, setFile] = useState(null);
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const uploadedFile = acceptedFiles[0];
     if (!uploadedFile) return;
 
     setFile(uploadedFile);
+    setText(''); // Reset text while extracting
 
     if (uploadedFile.type === 'text/plain') {
       const reader = new FileReader();
@@ -36,12 +43,34 @@ export default function DocumentUpload({ onAnalyze, isLoading }) {
       };
       reader.readAsText(uploadedFile);
     } else if (uploadedFile.type === 'application/pdf') {
-      // PDF extraction not implemented yet
-      toast.success('PDF uploaded. Note: automatic text extraction for PDFs is coming soon.', {
-        icon: 'ℹ️'
-      });
-      // Clear text since we can't extract yet
-      setText('');
+      try {
+        const arrayBuffer = await uploadedFile.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let extractedText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          extractedText += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        setText(extractedText);
+        toast.success('PDF text extracted successfully.');
+      } catch (error) {
+        console.error("PDF Extraction error:", error);
+        toast.error('Failed to extract text from PDF.');
+      }
+    } else if (
+      uploadedFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+      uploadedFile.name.endsWith('.docx')
+    ) {
+      try {
+        const arrayBuffer = await uploadedFile.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        setText(result.value);
+        toast.success('Word document text extracted successfully.');
+      } catch (error) {
+        console.error("DOCX Extraction error:", error);
+        toast.error('Failed to extract text from Word document.');
+      }
     } else {
       toast.error('Unsupported file type.');
     }
@@ -51,7 +80,8 @@ export default function DocumentUpload({ onAnalyze, isLoading }) {
     onDrop,
     accept: {
       'text/plain': ['.txt'],
-      'application/pdf': ['.pdf']
+      'application/pdf': ['.pdf'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
     },
     maxFiles: 1
   });
@@ -61,9 +91,8 @@ export default function DocumentUpload({ onAnalyze, isLoading }) {
       toast.error('Please paste some text or upload a document first.');
       return;
     }
-    if (!text.trim() && file && file.type === 'application/pdf') {
-      toast.error('PDF text extraction is not yet supported. Please paste the text instead.');
-      setActiveTab('paste');
+    if (!text.trim() && file) {
+      toast.error('File text is still extracting or is empty. Please wait.');
       return;
     }
     onAnalyze(text);
@@ -149,7 +178,7 @@ export default function DocumentUpload({ onAnalyze, isLoading }) {
                   <p className="text-sm sm:text-base font-medium text-[#1e293b] mb-1">
                     Drag & drop a file here, or click to select
                   </p>
-                  <p className="text-xs sm:text-sm">Supports .TXT and .PDF formats</p>
+                  <p className="text-xs sm:text-sm">Supports .TXT, .PDF, and .DOCX formats</p>
                 </div>
               )}
             </div>

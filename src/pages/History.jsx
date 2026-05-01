@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../services/firebaseConfig';
-import { collection, query, orderBy, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { getUserHistory, deleteHistoryItem } from '../services/firebaseConfig';
 import HistoryCard from '../components/HistoryCard';
 import toast from 'react-hot-toast';
 
@@ -11,16 +10,11 @@ export default function History() {
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      setFetching(false);
-      return;
-    }
+    if (!user) return;
     
     const fetchHistory = async () => {
       try {
-        const q = query(collection(db, `analyses/${user.uid}/scans`), orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const data = await getUserHistory(user.uid);
         setScans(data);
       } catch (error) {
         console.error("Error fetching history:", error);
@@ -36,7 +30,7 @@ export default function History() {
   const handleDelete = async (scanId) => {
     if (window.confirm("Are you sure you want to delete this notice from your history?")) {
       try {
-        await deleteDoc(doc(db, `analyses/${user.uid}/scans`, scanId));
+        await deleteHistoryItem(user.uid, scanId);
         setScans(scans.filter(s => s.id !== scanId));
         toast.success("Notice deleted.");
       } catch (error) {

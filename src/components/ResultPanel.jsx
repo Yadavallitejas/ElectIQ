@@ -3,7 +3,7 @@ import {
   AlertOctagon, AlertTriangle, Info, CheckCircle,
   FileText, Calendar, Target, Copy, RotateCcw, 
   Save, Languages, ChevronDown, ChevronUp, ShieldCheck,
-  HelpCircle
+  HelpCircle, Share2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
@@ -45,14 +45,14 @@ const KeyTerm = ({ term }) => {
 export default function ResultPanel({ result, inputText, onReset, hideActions = false }) {
   const { user } = useAuth();
   const [targetLang, setTargetLang] = useState('en');
-  const [translatedSummary, setTranslatedSummary] = useState('');
+  const [displayResult, setDisplayResult] = useState(result);
   const [isTranslating, setIsTranslating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     // Reset state if result changes
     setTargetLang('en');
-    setTranslatedSummary('');
+    setDisplayResult(result);
   }, [result]);
 
   const handleLanguageChange = async (e) => {
@@ -60,24 +60,66 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
     setTargetLang(lang);
     
     if (lang === 'en') {
-      setTranslatedSummary('');
+      setDisplayResult(result);
       return;
     }
 
     setIsTranslating(true);
     try {
-      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURIComponent(result.summary)}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      let translated = '';
-      data[0].forEach(item => {
-        if (item[0]) translated += item[0];
+      const stringsToTranslate = [
+        result.title || ' ',
+        result.summary || ' ',
+        result.what_it_means || ' ',
+        result.action_required || ' ',
+        result.deadline || ' ',
+        result.dont_panic_message || ' '
+      ];
+      
+      const keyTermsCount = result.key_terms ? result.key_terms.length : 0;
+      if (keyTermsCount > 0) {
+        stringsToTranslate.push(...result.key_terms);
+      }
+
+      const delimiter = '\n~|~\n';
+      const textToTranslate = stringsToTranslate.join(delimiter);
+
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `q=${encodeURIComponent(textToTranslate)}`
       });
-      setTranslatedSummary(translated);
+      
+      const data = await res.json();
+      let translatedText = '';
+      data[0].forEach(item => {
+        if (item[0]) translatedText += item[0];
+      });
+
+      const translatedArray = translatedText.split(/\n?~\|~\n?/);
+
+      const newResult = {
+        ...result,
+        title: translatedArray[0]?.trim() || result.title,
+        summary: translatedArray[1]?.trim() || result.summary,
+        what_it_means: translatedArray[2]?.trim() || result.what_it_means,
+        action_required: translatedArray[3]?.trim() || result.action_required,
+        deadline: translatedArray[4]?.trim() || result.deadline,
+        dont_panic_message: translatedArray[5]?.trim() || result.dont_panic_message,
+      };
+
+      if (keyTermsCount > 0) {
+        newResult.key_terms = translatedArray.slice(6, 6 + keyTermsCount).map(t => t?.trim() || '');
+      }
+
+      setDisplayResult(newResult);
     } catch (error) {
       console.error("Translation error", error);
       toast.error("Failed to translate text.");
       setTargetLang('en');
+      setDisplayResult(result);
     } finally {
       setIsTranslating(false);
     }
@@ -108,7 +150,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
     }
   };
 
-  if (!result) return null;
+  if (!displayResult) return null;
 
   // Determine urgency theme
   let urgencyTheme = {
@@ -119,7 +161,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
     label: '✅ No Immediate Action'
   };
 
-  if (result.urgency_level === 'CRITICAL') {
+  if (displayResult.urgency_level === 'CRITICAL') {
     urgencyTheme = {
       bg: 'bg-red-100',
       border: 'border-red-200',
@@ -127,7 +169,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
       icon: <AlertOctagon className="w-5 h-5 mr-2" />,
       label: '🚨 Urgent Action Required'
     };
-  } else if (result.urgency_level === 'HIGH') {
+  } else if (displayResult.urgency_level === 'HIGH') {
     urgencyTheme = {
       bg: 'bg-orange-100',
       border: 'border-orange-200',
@@ -135,7 +177,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
       icon: <AlertTriangle className="w-5 h-5 mr-2" />,
       label: '⚠️ Action Needed'
     };
-  } else if (result.urgency_level === 'MEDIUM') {
+  } else if (displayResult.urgency_level === 'MEDIUM') {
     urgencyTheme = {
       bg: 'bg-yellow-100',
       border: 'border-yellow-200',
@@ -168,7 +210,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-extrabold text-[#1e3a5f] mb-4">
-              {result.title}
+              {displayResult.title}
             </h2>
             
             {/* Translation & Summary */}
@@ -190,20 +232,12 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
                 <FileText className="w-6 h-6 text-[#1e3a5f] flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Plain English Summary</h3>
-                  <p className="text-[#1e293b] text-lg leading-relaxed">
-                    {result.summary}
-                  </p>
-                  
-                  {isTranslating && (
-                    <p className="text-sm text-gray-500 mt-4 italic animate-pulse">Translating...</p>
-                  )}
-                  
-                  {translatedSummary && !isTranslating && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <p className="text-[#1e293b] text-lg leading-relaxed font-medium text-blue-900 bg-blue-50/50 p-3 rounded-lg border border-blue-100">
-                        {translatedSummary}
-                      </p>
-                    </div>
+                  {isTranslating ? (
+                    <p className="text-sm text-gray-500 mt-2 italic animate-pulse">Translating document...</p>
+                  ) : (
+                    <p className="text-[#1e293b] text-lg leading-relaxed">
+                      {displayResult.summary}
+                    </p>
                   )}
                 </div>
               </div>
@@ -217,7 +251,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
                 <Info className="w-5 h-5 text-blue-500" />
                 <h4 className="font-bold text-[#1e3a5f]">What This Means</h4>
               </div>
-              <p className="text-gray-700 text-sm leading-relaxed">{result.what_it_means}</p>
+              <p className="text-gray-700 text-sm leading-relaxed">{isTranslating ? '...' : displayResult.what_it_means}</p>
             </div>
             
             <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
@@ -225,7 +259,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
                 <Target className="w-5 h-5 text-orange-500" />
                 <h4 className="font-bold text-[#1e3a5f]">What You Should Do</h4>
               </div>
-              <p className="text-gray-700 text-sm leading-relaxed">{result.action_required}</p>
+              <p className="text-gray-700 text-sm leading-relaxed">{isTranslating ? '...' : displayResult.action_required}</p>
             </div>
 
             <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
@@ -233,32 +267,36 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
                 <Calendar className="w-5 h-5 text-red-500" />
                 <h4 className="font-bold text-[#1e3a5f]">Deadline</h4>
               </div>
-              <p className="text-gray-700 text-sm font-semibold">{result.deadline || 'No deadline mentioned'}</p>
+              <p className="text-gray-700 text-sm font-semibold">{isTranslating ? '...' : (displayResult.deadline || 'No deadline mentioned')}</p>
             </div>
           </div>
 
           {/* Key Terms */}
-          {result.key_terms && result.key_terms.length > 0 && (
+          {displayResult.key_terms && displayResult.key_terms.length > 0 && (
             <div className="mb-8">
               <h3 className="text-lg font-bold text-[#1e3a5f] mb-4 flex items-center gap-2">
                 <HelpCircle className="w-5 h-5" />
                 Confusing Terms Explained
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {result.key_terms.map((term, idx) => (
-                  <KeyTerm key={idx} term={term} />
-                ))}
+                {isTranslating ? (
+                   <div className="text-sm text-gray-500 italic">Translating terms...</div>
+                ) : (
+                  displayResult.key_terms.map((term, idx) => (
+                    <KeyTerm key={idx} term={term} />
+                  ))
+                )}
               </div>
             </div>
           )}
 
           {/* Don't Panic Message */}
-          {result.is_this_serious && result.dont_panic_message && (
+          {displayResult.is_this_serious && displayResult.dont_panic_message && (
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 flex items-start gap-4 shadow-inner mt-4">
               <ShieldCheck className="w-8 h-8 text-blue-500 flex-shrink-0" />
               <div>
                 <h4 className="text-blue-800 font-bold mb-1">Don't Panic!</h4>
-                <p className="text-blue-900 text-sm">{result.dont_panic_message}</p>
+                <p className="text-blue-900 text-sm">{isTranslating ? '...' : displayResult.dont_panic_message}</p>
               </div>
             </div>
           )}
@@ -278,7 +316,7 @@ export default function ResultPanel({ result, inputText, onReset, hideActions = 
           
           <button 
             onClick={async () => {
-              const textToShare = `I just decoded a "${result.title}" using NoticeDecoder! Check it out: ${window.location.origin}`;
+              const textToShare = `I just decoded a "${displayResult.title}" using NoticeDecoder! Check it out: ${window.location.origin}`;
               if (navigator.share) {
                 try {
                   await navigator.share({
