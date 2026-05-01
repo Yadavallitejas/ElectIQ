@@ -7,8 +7,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../services/firebaseConfig';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { saveAnalysis } from '../services/firebaseConfig';
 
 const LANGUAGES = [
   { code: 'en', name: 'English' },
@@ -43,7 +42,7 @@ const KeyTerm = ({ term }) => {
   );
 };
 
-export default function ResultPanel({ result, onReset }) {
+export default function ResultPanel({ result, inputText, onReset, hideActions = false }) {
   const { user } = useAuth();
   const [targetLang, setTargetLang] = useState('en');
   const [translatedSummary, setTranslatedSummary] = useState('');
@@ -99,12 +98,8 @@ export default function ResultPanel({ result, onReset }) {
     
     setIsSaving(true);
     try {
-      await addDoc(collection(db, "history"), {
-        userId: user.uid,
-        result: result,
-        createdAt: serverTimestamp()
-      });
-      toast.success("Notice saved to your history!");
+      await saveAnalysis(user.uid, inputText, result);
+      toast.success("Saved to your history ✅");
     } catch (error) {
       console.error("Error saving document: ", error);
       toast.error("Failed to save to history.");
@@ -151,7 +146,7 @@ export default function ResultPanel({ result, onReset }) {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-6 mb-16 opacity-0 translate-y-4 animate-[fadeInUp_0.5s_ease-out_forwards]">
+    <div className={hideActions ? "w-full" : "w-full max-w-4xl mx-auto mt-6 mb-16 opacity-0 translate-y-4 animate-[fadeInUp_0.5s_ease-out_forwards]"}>
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }
@@ -160,7 +155,7 @@ export default function ResultPanel({ result, onReset }) {
       `}} />
       
       {/* Main Card */}
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className={`bg-white overflow-hidden ${hideActions ? '' : 'rounded-2xl shadow-xl border border-gray-100'}`}>
         
         {/* Urgency Banner */}
         <div className={`w-full px-6 py-3 border-b flex items-center font-bold text-sm sm:text-base ${urgencyTheme.bg} ${urgencyTheme.border} ${urgencyTheme.text}`}>
@@ -271,6 +266,7 @@ export default function ResultPanel({ result, onReset }) {
         </div>
 
         {/* Action Buttons */}
+        {!hideActions && (
         <div className="bg-gray-50 p-4 sm:px-8 border-t border-gray-100 flex flex-wrap gap-3 justify-end items-center">
           <button 
             onClick={handleCopy}
@@ -278,6 +274,31 @@ export default function ResultPanel({ result, onReset }) {
           >
             <Copy className="w-4 h-4" />
             Copy Summary
+          </button>
+          
+          <button 
+            onClick={async () => {
+              const textToShare = `I just decoded a "${result.title}" using NoticeDecoder! Check it out: ${window.location.origin}`;
+              if (navigator.share) {
+                try {
+                  await navigator.share({
+                    title: 'NoticeDecoder',
+                    text: textToShare,
+                    url: window.location.origin,
+                  });
+                } catch (error) {
+                  if (error.name !== 'AbortError') console.error("Error sharing", error);
+                }
+              } else {
+                navigator.clipboard.writeText(textToShare)
+                  .then(() => toast.success("Link copied to share!"))
+                  .catch(() => toast.error("Failed to copy link."));
+              }
+            }}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
+          >
+            <Share2 className="w-4 h-4" />
+            Share
           </button>
           
           {user && (
@@ -299,6 +320,7 @@ export default function ResultPanel({ result, onReset }) {
             Decode Another
           </button>
         </div>
+        )}
       </div>
     </div>
   );
