@@ -92,14 +92,16 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-5 justify-center w-full sm:w-auto px-4 animate-[fadeInUp_1s_ease-out_0.6s_both]">
             <Link 
               to="/how-it-works" 
-              className="bg-white text-blue-900 px-8 py-5 rounded-full font-black text-lg md:text-xl shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:bg-gray-50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 group"
+              className="bg-white text-blue-900 px-8 py-5 rounded-full font-black text-lg md:text-xl shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:bg-gray-50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 group focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              aria-label="Explore Election Process"
             >
               Explore Election Process 
-              <span className="transform transition-transform group-hover:translate-x-2">→</span>
+              <span className="transform transition-transform group-hover:translate-x-2" aria-hidden="true">→</span>
             </Link>
             <Link 
               to="/ask" 
-              className="bg-black/20 backdrop-blur-md border-2 border-white/30 text-white px-8 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+              className="bg-black/20 backdrop-blur-md border-2 border-white/30 text-white px-8 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              aria-label="Ask ElectIQ a Question"
             >
               Ask ElectIQ a Question
             </Link>
@@ -135,38 +137,38 @@ const Home = () => {
       {/* 2. THREE FEATURE CARDS */}
       <div className="py-24 px-4 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Link to="/how-it-works" className="group">
+          <Link to="/how-it-works" className="group focus:outline-none focus:ring-4 focus:ring-orange-500 rounded-[2rem] block" aria-label="Follow the complete process from announcement to results">
             <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
-              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md">🗺️</div>
+              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">🗺️</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Election Journey</h3>
               <p className="text-gray-600 font-medium leading-relaxed mb-8">Follow the complete process from announcement to results in 7 interactive steps.</p>
               <div className="text-orange-500 font-bold flex items-center gap-2 uppercase tracking-widest text-sm">
-                Explore Process <span className="transform transition-transform group-hover:translate-x-2">→</span>
+                Explore Process <span className="transform transition-transform group-hover:translate-x-2" aria-hidden="true">→</span>
               </div>
             </div>
           </Link>
           
-          <Link to="/ask" className="group">
+          <Link to="/ask" className="group focus:outline-none focus:ring-4 focus:ring-blue-500 rounded-[2rem] block" aria-label="Get instant answers to any election question">
             <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
-              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 filter drop-shadow-md">💬</div>
+              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">💬</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Ask ElectIQ</h3>
               <p className="text-gray-600 font-medium leading-relaxed mb-8">Get instant answers to any election question powered by advanced Gemini AI.</p>
               <div className="text-blue-600 font-bold flex items-center gap-2 uppercase tracking-widest text-sm">
-                Chat Now <span className="transform transition-transform group-hover:translate-x-2">→</span>
+                Chat Now <span className="transform transition-transform group-hover:translate-x-2" aria-hidden="true">→</span>
               </div>
             </div>
           </Link>
           
-          <Link to="/voter-guide" className="group">
+          <Link to="/voter-guide" className="group focus:outline-none focus:ring-4 focus:ring-green-500 rounded-[2rem] block" aria-label="Make sure you're fully prepared for polling day">
             <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
-              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md">✅</div>
+              <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">✅</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Voter Checklist</h3>
               <p className="text-gray-600 font-medium leading-relaxed mb-8">Make sure you're fully prepared for polling day with our interactive guide.</p>
               <div className="text-green-600 font-bold flex items-center gap-2 uppercase tracking-widest text-sm">
-                Check Readiness <span className="transform transition-transform group-hover:translate-x-2">→</span>
+                Check Readiness <span className="transform transition-transform group-hover:translate-x-2" aria-hidden="true">→</span>
               </div>
             </div>
           </Link>
@@ -220,9 +222,10 @@ const Home = () => {
           <div className="flex justify-center mt-4">
             <Link 
               to="/how-it-works" 
-              className="bg-[#1e3a8a] text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:bg-blue-900 transition-all transform hover:-translate-y-1 flex items-center gap-2"
+              className="bg-[#1e3a8a] text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:bg-blue-900 transition-all transform hover:-translate-y-1 flex items-center gap-2 focus:outline-none focus:ring-4 focus:ring-orange-500"
+              aria-label="See all 7 steps of the election process"
             >
-              See All 7 Steps <span>→</span>
+              See All 7 Steps <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

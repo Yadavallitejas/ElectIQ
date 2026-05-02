@@ -3,7 +3,7 @@ import React from 'react';
 const StepCard = ({ step, isActive, onClick }) => {
   return (
     <div 
-      className={`relative w-full rounded-3xl shadow-sm cursor-pointer transition-all duration-500 overflow-hidden text-left border-2 ${
+      className={`relative w-full rounded-3xl shadow-sm cursor-pointer transition-all duration-500 overflow-hidden text-left border-2 focus:outline-none focus:ring-4 focus:ring-orange-500 ${
         isActive ? 'shadow-2xl md:scale-105 z-30' : 'border-transparent hover:shadow-md hover:-translate-y-1 z-10'
       }`}
       style={{ 
@@ -12,6 +12,16 @@ const StepCard = ({ step, isActive, onClick }) => {
         backgroundColor: '#ffffff'
       }}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex="0"
+      aria-expanded={isActive}
+      aria-label={`${step.phase}: ${step.title}. ${isActive ? 'Collapse details' : 'Expand details'}`}
     >
       {/* Background tint when expanded */}
       <div 

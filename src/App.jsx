@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
 import LoadingDots from './components/LoadingDots';
+
+const Home = React.lazy(() => import('./pages/Home'));
 
 const HowElectionsWork = React.lazy(() => import('./pages/HowElectionsWork'));
 const AskAnything = React.lazy(() => import('./pages/AskAnything'));
@@ -14,10 +15,14 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50 flex flex-col w-full font-sans">
+        <div className="min-h-screen bg-gray-50 flex flex-col w-full font-sans relative">
+          {/* Skip to content link for accessibility */}
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[100] focus:p-4 focus:bg-orange-500 focus:text-white focus:font-bold focus:outline-none focus:ring-4 focus:ring-orange-300">
+            Skip to main content
+          </a>
           <Toaster position="top-right" />
           <Navbar />
-          <main className="flex-1">
+          <main id="main-content" role="main" className="flex-1 focus:outline-none" tabIndex="-1">
             <Suspense fallback={<div className="h-40 flex items-center justify-center"><LoadingDots /></div>}>
               <Routes>
                 <Route path="/" element={<Home />} />

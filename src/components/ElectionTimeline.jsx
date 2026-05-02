@@ -103,13 +103,23 @@ const ElectionTimeline = ({ limit }) => {
                     
                     {/* The Dot */}
                     <div 
-                       className="w-7 h-7 rounded-full border-[5px] border-[#fff8f0] shadow-md transition-all duration-500 relative z-20 cursor-pointer"
+                       className="w-7 h-7 rounded-full border-[5px] border-[#fff8f0] shadow-md transition-all duration-500 relative z-20 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-500"
                        style={{ 
                          backgroundColor: activeStep === step.id ? step.color : '#cbd5e1',
                          transform: activeStep === step.id ? 'scale(1.4)' : 'scale(1)',
                          boxShadow: activeStep === step.id ? `0 0 15px ${step.color}80` : ''
                        }}
                        onClick={() => setActiveStep(activeStep === step.id ? null : step.id)}
+                       onKeyDown={(e) => {
+                         if (e.key === 'Enter' || e.key === ' ') {
+                           e.preventDefault();
+                           setActiveStep(activeStep === step.id ? null : step.id);
+                         }
+                       }}
+                       role="button"
+                       tabIndex="0"
+                       aria-label={`Toggle details for phase: ${step.phase}`}
+                       aria-expanded={activeStep === step.id}
                     ></div>
                   </div>
                   

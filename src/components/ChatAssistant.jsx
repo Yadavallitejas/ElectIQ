@@ -3,6 +3,7 @@ import { askElectionQuestion } from '../services/geminiService';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../services/firebaseConfig';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { validateChatInput } from '../utils/validation';
 
 const STARTER_QUESTIONS = [
   "How do I register to vote?",
@@ -57,10 +58,13 @@ const ChatAssistant = () => {
   };
 
   const handleSend = async (text) => {
-    if (!text.trim() || text.length > 500) return;
+    const validation = validateChatInput(text);
+    if (!validation.isValid) return;
+
+    const sanitizedText = validation.sanitizedText;
 
     const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const userMsg = { role: 'user', content: text, time: currentTime };
+    const userMsg = { role: 'user', content: sanitizedText, time: currentTime };
     
     // We capture current messages before updating state to pass as history
     const historyForApi = messages.map(m => ({ role: m.role, content: m.content }));
@@ -72,7 +76,7 @@ const ChatAssistant = () => {
     setLoading(true);
 
     try {
-      const responseText = await askElectionQuestion(text, historyForApi);
+      const responseText = await askElectionQuestion(sanitizedText, historyForApi);
       
       const aiMsg = {
         role: 'assistant',
@@ -114,8 +118,9 @@ const ChatAssistant = () => {
         </div>
         <button 
           onClick={handleClearChat}
-          className="text-white hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+          className="text-white hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white"
           title="Clear Conversation"
+          aria-label="Clear Chat Conversation"
         >
           Clear Chat
         </button>
@@ -131,7 +136,8 @@ const ChatAssistant = () => {
               <button
                 key={i}
                 onClick={() => handleSend(sq)}
-                className="bg-white text-[#075e54] border border-[#075e54]/20 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-[#d9fdd3] hover:border-[#075e54]/40 transition-colors"
+                className="bg-white text-[#075e54] border border-[#075e54]/20 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-[#d9fdd3] hover:border-[#075e54]/40 transition-colors focus:outline-none focus:ring-2 focus:ring-[#075e54]"
+                aria-label={`Ask: ${sq}`}
               >
                 {sq}
               </button>
@@ -210,7 +216,8 @@ const ChatAssistant = () => {
                 }
               }}
               placeholder="Message ElectIQ..."
-              className="w-full p-3 px-4 max-h-[120px] resize-none focus:outline-none focus:ring-0 text-gray-800"
+              aria-label="Type your message to ElectIQ"
+              className="w-full p-3 px-4 max-h-[120px] resize-none focus:outline-none focus:ring-2 focus:ring-[#075e54] text-gray-800 rounded-2xl"
               disabled={loading}
               style={{ minHeight: '44px' }}
             />
@@ -224,7 +231,7 @@ const ChatAssistant = () => {
           <button
             type="submit"
             disabled={loading || !query.trim() || query.length > 500}
-            className="w-[48px] h-[48px] rounded-full bg-[#00a884] text-white flex items-center justify-center flex-shrink-0 hover:bg-[#008f6f] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mb-0.5"
+            className="w-[48px] h-[48px] rounded-full bg-[#00a884] text-white flex items-center justify-center flex-shrink-0 hover:bg-[#008f6f] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mb-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#075e54]"
             aria-label="Send message"
           >
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">

@@ -101,12 +101,22 @@ const VoterChecklist = () => {
                 }`}
               >
                 <div 
-                  className="mt-0.5 relative flex-shrink-0 w-7 h-7 rounded border-2 cursor-pointer transition-colors duration-300 flex items-center justify-center mr-4"
+                  className="mt-0.5 relative flex-shrink-0 w-7 h-7 rounded border-2 cursor-pointer transition-colors duration-300 flex items-center justify-center mr-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                   style={{ 
                     borderColor: isChecked ? '#22c55e' : '#d1d5db',
                     backgroundColor: isChecked ? '#22c55e' : 'transparent'
                   }}
                   onClick={() => toggleCheck(item.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleCheck(item.id);
+                    }
+                  }}
+                  role="checkbox"
+                  aria-checked={isChecked}
+                  tabIndex="0"
+                  aria-label={`Mark "${item.task}" as ${isChecked ? 'incomplete' : 'complete'}`}
                 >
                   <style>{`
                     @keyframes check {
@@ -143,7 +153,8 @@ const VoterChecklist = () => {
                       href={item.link} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className={`inline-flex items-center gap-1 mt-2 text-sm font-bold ${isChecked ? 'text-green-600 hover:text-green-700' : 'text-orange-500 hover:text-orange-600'} transition-colors group`}
+                      className={`inline-flex items-center gap-1 mt-2 text-sm font-bold ${isChecked ? 'text-green-600 hover:text-green-700' : 'text-orange-500 hover:text-orange-600'} transition-colors group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-sm`}
+                      aria-label={`${item.linkText} (opens in a new tab)`}
                     >
                       {item.linkText}
                       <span className="transform transition-transform group-hover:translate-x-1">→</span>
@@ -166,7 +177,8 @@ const VoterChecklist = () => {
         <div className="flex justify-center mb-8">
           <button 
             onClick={handleReset}
-            className="text-gray-400 hover:text-red-500 text-sm font-bold underline transition-colors px-4 py-2"
+            className="text-gray-400 hover:text-red-500 text-sm font-bold underline transition-colors px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-sm"
+            aria-label="Reset the checklist"
           >
             Reset Checklist
           </button>
@@ -176,7 +188,7 @@ const VoterChecklist = () => {
         <div className="bg-[#fff8f0] rounded-xl p-5 border border-orange-200">
           <h4 className="text-xs font-black text-orange-500 uppercase tracking-widest mb-3">Official Resources</h4>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="tel:1950" className="flex-1 bg-white p-3 rounded-lg shadow-sm border border-orange-100 flex items-center gap-3 hover:shadow-md transition-shadow group">
+            <a href="tel:1950" className="flex-1 bg-white p-3 rounded-lg shadow-sm border border-orange-100 flex items-center gap-3 hover:shadow-md transition-shadow group focus:outline-none focus:ring-2 focus:ring-orange-500">
               <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-xl group-hover:bg-orange-500 group-hover:text-white transition-colors">
                 📞
               </div>
@@ -186,7 +198,7 @@ const VoterChecklist = () => {
               </div>
             </a>
             
-            <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" className="flex-1 bg-white p-3 rounded-lg shadow-sm border border-orange-100 flex items-center gap-3 hover:shadow-md transition-shadow group">
+            <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" className="flex-1 bg-white p-3 rounded-lg shadow-sm border border-orange-100 flex items-center gap-3 hover:shadow-md transition-shadow group focus:outline-none focus:ring-2 focus:ring-orange-500" aria-label="Official Website eci.gov.in (opens in new tab)">
               <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
                 🌐
               </div>
