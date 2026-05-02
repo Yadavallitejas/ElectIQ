@@ -73,26 +73,26 @@ const Home = () => {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-4 pt-20 pb-32">
+        <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-4 py-8 md:px-12 md:py-24">
           <div className="animate-[fadeInDown_1s_ease-out]">
             <span className="inline-block px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-bold uppercase tracking-widest mb-8 shadow-xl">
               <span className="mr-2">🗳️</span> Official Election Education Guide
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-tight max-w-5xl animate-[fadeInUp_1s_ease-out_0.2s_both]">
+          <h1 className="text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight max-w-5xl animate-[fadeInUp_1s_ease-out_0.2s_both]">
             Understand India's <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 filter drop-shadow-lg">Elections</span>
           </h1>
           
-          <p className="text-xl md:text-3xl mb-12 text-orange-100 font-medium max-w-3xl mx-auto animate-[fadeInUp_1s_ease-out_0.4s_both] leading-relaxed">
+          <p className="text-base md:text-xl mb-12 text-orange-100 font-medium max-w-3xl mx-auto animate-[fadeInUp_1s_ease-out_0.4s_both] leading-relaxed">
             Interactive, simple, step-by-step — <br className="md:hidden" />for every Indian voter.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-5 justify-center w-full sm:w-auto px-4 animate-[fadeInUp_1s_ease-out_0.6s_both]">
+          <div className="flex flex-col md:flex-row gap-5 justify-center w-full px-4 animate-[fadeInUp_1s_ease-out_0.6s_both]">
             <Link 
               to="/how-it-works" 
-              className="bg-white text-blue-900 px-8 py-5 rounded-full font-black text-lg md:text-xl shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:bg-gray-50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 group focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              className="bg-white text-blue-900 px-8 py-5 rounded-full font-black text-lg md:text-xl shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:bg-gray-50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 group w-full md:w-auto focus:outline-none focus:ring-4 focus:ring-yellow-300"
               aria-label="Explore Election Process"
             >
               Explore Election Process 
@@ -100,7 +100,7 @@ const Home = () => {
             </Link>
             <Link 
               to="/ask" 
-              className="bg-black/20 backdrop-blur-md border-2 border-white/30 text-white px-8 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              className="bg-black/20 backdrop-blur-md border-2 border-white/30 text-white px-8 py-5 rounded-full font-bold text-lg md:text-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 w-full md:w-auto focus:outline-none focus:ring-4 focus:ring-yellow-300"
               aria-label="Ask ElectIQ a Question"
             >
               Ask ElectIQ a Question
@@ -109,12 +109,12 @@ const Home = () => {
         </div>
 
         {/* Quick Facts Bar */}
-        <div className="absolute bottom-0 left-0 w-full bg-black/30 backdrop-blur-md border-t border-white/10 p-4 overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-full bg-black/30 backdrop-blur-md border-t border-white/10 p-4 overflow-y-auto max-h-32 md:max-h-none md:overflow-visible">
           <div className="max-w-7xl mx-auto flex items-center justify-center">
-            <div className="flex items-center gap-3 transition-opacity duration-500" key={activeFactIndex}>
+            <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-2 md:gap-3 transition-opacity duration-500" key={activeFactIndex}>
               <span className="text-3xl filter drop-shadow-md">{quickFacts[activeFactIndex].emoji}</span>
               <span className="text-white font-semibold text-sm md:text-base tracking-wide">
-                <span className="text-yellow-400 font-bold mr-2">DID YOU KNOW?</span>
+                <span className="text-yellow-400 font-bold md:mr-2 block md:inline">DID YOU KNOW?</span>
                 {quickFacts[activeFactIndex].fact}
               </span>
             </div>
@@ -125,11 +125,11 @@ const Home = () => {
       {/* 4. TRUST STRIP */}
       <div className="bg-white py-6 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center md:justify-between items-center gap-6 text-sm font-bold text-gray-500 uppercase tracking-wider">
-            <div className="flex items-center gap-2"><span className="text-xl">🏛️</span> Based on ECI guidelines</div>
-            <div className="flex items-center gap-2"><span className="text-xl">🤖</span> Powered by Gemini AI</div>
-            <div className="flex items-center gap-2"><span className="text-xl">🔒</span> No data sold or shared</div>
-            <div className="flex items-center gap-2"><span className="text-xl">🇮🇳</span> Made for Indian voters</div>
+          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 md:gap-6 text-xs md:text-sm font-bold text-gray-500 uppercase tracking-wider">
+            <div className="flex flex-col sm:flex-row items-center text-center gap-1 md:gap-2"><span className="text-xl">🏛️</span> Based on ECI guidelines</div>
+            <div className="flex flex-col sm:flex-row items-center text-center gap-1 md:gap-2"><span className="text-xl">🤖</span> Powered by Gemini AI</div>
+            <div className="flex flex-col sm:flex-row items-center text-center gap-1 md:gap-2"><span className="text-xl">🔒</span> No data sold or shared</div>
+            <div className="flex flex-col sm:flex-row items-center text-center gap-1 md:gap-2"><span className="text-xl">🇮🇳</span> Made for Indian voters</div>
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ const Home = () => {
       <div className="py-24 px-4 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <Link to="/how-it-works" className="group focus:outline-none focus:ring-4 focus:ring-orange-500 rounded-[2rem] block" aria-label="Follow the complete process from announcement to results">
-            <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
+            <div className="bg-white h-full p-6 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
               <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">🗺️</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Election Journey</h3>
@@ -150,7 +150,7 @@ const Home = () => {
           </Link>
           
           <Link to="/ask" className="group focus:outline-none focus:ring-4 focus:ring-blue-500 rounded-[2rem] block" aria-label="Get instant answers to any election question">
-            <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
+            <div className="bg-white h-full p-6 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
               <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">💬</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Ask ElectIQ</h3>
@@ -162,7 +162,7 @@ const Home = () => {
           </Link>
           
           <Link to="/voter-guide" className="group focus:outline-none focus:ring-4 focus:ring-green-500 rounded-[2rem] block" aria-label="Make sure you're fully prepared for polling day">
-            <div className="bg-white h-full p-8 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
+            <div className="bg-white h-full p-6 md:p-10 rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-bl-[100px] -z-10 transition-transform group-hover:scale-110"></div>
               <div className="text-6xl mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 filter drop-shadow-md" aria-hidden="true">✅</div>
               <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Voter Checklist</h3>
@@ -181,28 +181,28 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
             <div>
-              <div className="text-4xl md:text-6xl font-black text-yellow-400 mb-2 drop-shadow-md">
+              <div className="text-2xl md:text-4xl font-black text-yellow-400 mb-2 drop-shadow-md">
                 <CountUp end={543} />
               </div>
-              <div className="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200">Constituencies</div>
+              <div className="text-xs md:text-base font-bold uppercase tracking-widest text-blue-200">Constituencies</div>
             </div>
             <div>
-              <div className="text-4xl md:text-6xl font-black text-yellow-400 mb-2 drop-shadow-md">
+              <div className="text-2xl md:text-4xl font-black text-yellow-400 mb-2 drop-shadow-md">
                 <CountUp end={970} suffix="M+" />
               </div>
-              <div className="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200">Voters</div>
+              <div className="text-xs md:text-base font-bold uppercase tracking-widest text-blue-200">Voters</div>
             </div>
             <div>
-              <div className="text-4xl md:text-6xl font-black text-yellow-400 mb-2 drop-shadow-md">
+              <div className="text-2xl md:text-4xl font-black text-yellow-400 mb-2 drop-shadow-md">
                 <CountUp end={7} />
               </div>
-              <div className="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200">Election Phases</div>
+              <div className="text-xs md:text-base font-bold uppercase tracking-widest text-blue-200">Phases</div>
             </div>
             <div>
-              <div className="text-4xl md:text-6xl font-black text-yellow-400 mb-2 drop-shadow-md">
+              <div className="text-2xl md:text-4xl font-black text-yellow-400 mb-2 drop-shadow-md">
                 1950
               </div>
-              <div className="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200">Voter Helpline</div>
+              <div className="text-xs md:text-base font-bold uppercase tracking-widest text-blue-200">Helpline</div>
             </div>
           </div>
         </div>

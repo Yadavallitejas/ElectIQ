@@ -20,6 +20,8 @@ function App() {
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[100] focus:p-4 focus:bg-orange-500 focus:text-white focus:font-bold focus:outline-none focus:ring-4 focus:ring-orange-300">
             Skip to main content
           </a>
+          {/* Safelist hidden div for Tailwind v4 dynamic classes */}
+          <div className="hidden text-sm text-base px-4 py-2" aria-hidden="true"></div>
           <Toaster position="top-right" />
           <Navbar />
           <main id="main-content" role="main" className="flex-1 focus:outline-none" tabIndex="-1">

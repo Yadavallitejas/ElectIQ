@@ -103,7 +103,7 @@ const ChatAssistant = () => {
   };
 
   return (
-    <div className="flex flex-col h-[75vh] min-h-[500px] max-w-4xl mx-auto bg-[#efeae2] rounded-2xl shadow-2xl border border-gray-200 overflow-hidden relative font-sans">
+    <div className="flex flex-col h-[calc(100vh-120px)] min-h-[500px] max-w-4xl mx-auto bg-[#efeae2] rounded-2xl shadow-2xl border border-gray-200 overflow-hidden relative font-sans">
       
       {/* Header */}
       <div className="bg-[#075e54] text-white px-4 py-3 flex justify-between items-center z-20 shadow-md">
@@ -136,7 +136,7 @@ const ChatAssistant = () => {
               <button
                 key={i}
                 onClick={() => handleSend(sq)}
-                className="bg-white text-[#075e54] border border-[#075e54]/20 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-[#d9fdd3] hover:border-[#075e54]/40 transition-colors focus:outline-none focus:ring-2 focus:ring-[#075e54]"
+                className="bg-white text-[#075e54] border border-[#075e54]/20 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-[#d9fdd3] hover:border-[#075e54]/40 transition-colors focus:outline-none focus:ring-2 focus:ring-[#075e54] w-full sm:w-auto"
                 aria-label={`Ask: ${sq}`}
               >
                 {sq}
@@ -150,12 +150,12 @@ const ChatAssistant = () => {
           return (
             <div key={index} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
               {!isUser && (
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-sm shadow-sm mr-2 flex-shrink-0 self-end mb-1 border border-gray-100">
+                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center text-xs md:text-sm shadow-sm mr-2 flex-shrink-0 self-end mb-1 border border-gray-100">
                   🇮🇳
                 </div>
               )}
               
-              <div className={`max-w-[80%] md:max-w-[70%] relative ${
+              <div className={`max-w-[85%] md:max-w-[70%] relative ${
                 isUser 
                   ? 'bg-[#d9fdd3] text-gray-800 rounded-2xl rounded-br-none shadow-sm' 
                   : 'bg-white text-gray-800 rounded-2xl rounded-bl-none shadow-sm border border-gray-100'
@@ -167,7 +167,7 @@ const ChatAssistant = () => {
                     : '-left-2 bg-white clip-tail-left border-b border-l border-gray-100'
                 }`} style={{ clipPath: isUser ? 'polygon(0 0, 0% 100%, 100% 100%)' : 'polygon(100% 0, 0% 100%, 100% 100%)' }}></div>
                 
-                <div className="p-3 md:p-4 text-[15px] leading-relaxed whitespace-pre-wrap">
+                <div className="p-3 md:p-4 text-sm md:text-[15px] leading-relaxed whitespace-pre-wrap">
                   {/* Basic markdown bold parser */}
                   {msg.content.split('**').map((text, i) => i % 2 === 1 ? <strong key={i} className="text-gray-900">{text}</strong> : text)}
                 </div>
@@ -183,7 +183,7 @@ const ChatAssistant = () => {
         {/* Typing Indicator */}
         {loading && (
           <div className="flex justify-start">
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-sm shadow-sm mr-2 flex-shrink-0 self-end mb-1 border border-gray-100">
+            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center text-xs md:text-sm shadow-sm mr-2 flex-shrink-0 self-end mb-1 border border-gray-100">
               🇮🇳
             </div>
             <div className="bg-white rounded-2xl rounded-bl-none shadow-sm border border-gray-100 p-4 px-5 flex items-center gap-1.5 relative">
@@ -198,7 +198,7 @@ const ChatAssistant = () => {
       </div>
 
       {/* Input Area */}
-      <div className="bg-[#f0f2f5] p-3 z-20">
+      <div className="bg-[#f0f2f5] px-3 py-2 z-20 mt-auto sticky bottom-0 w-full">
         <form onSubmit={handleSubmit} className="flex gap-2 items-end">
           <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative">
             <textarea

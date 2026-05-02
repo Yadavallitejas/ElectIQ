@@ -20,7 +20,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md p-1">
               <span className="text-3xl" aria-hidden="true">🗳️</span>
-              <span className="font-extrabold text-2xl tracking-tight text-gray-900">
+              <span className="font-extrabold text-lg md:text-xl tracking-tight text-gray-900">
                 Elect<span className="text-orange-500">IQ</span>
               </span>
             </Link>
@@ -88,10 +88,10 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500">Home</Link>
-            <Link to="/how-it-works" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500">How It Works</Link>
-            <Link to="/ask" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500">Ask ElectIQ</Link>
-            <Link to="/voter-guide" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500">Voter Guide</Link>
+            <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[48px] flex items-center">Home</Link>
+            <Link to="/how-it-works" onClick={() => setIsOpen(false)} className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[48px] flex items-center">How It Works</Link>
+            <Link to="/ask" onClick={() => setIsOpen(false)} className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[48px] flex items-center">Ask ElectIQ</Link>
+            <Link to="/voter-guide" onClick={() => setIsOpen(false)} className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[48px] flex items-center">Voter Guide</Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
             {user ? (

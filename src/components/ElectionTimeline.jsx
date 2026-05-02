@@ -82,31 +82,28 @@ const ElectionTimeline = ({ limit }) => {
 
         {/* Timeline Layout */}
         <div className="relative pb-6">
-          {/* Desktop Timeline Line */}
-          <div className="hidden md:block absolute top-[13px] left-0 right-0 h-1.5 z-0 rounded-full shadow-sm" style={{ background: 'linear-gradient(to right, #FF6600, #dc2626, #1e3a8a)' }}></div>
-          
-          {/* Mobile Timeline Line */}
-          <div className="md:hidden absolute top-0 bottom-0 left-[15px] w-1.5 z-0 rounded-full shadow-sm" style={{ background: 'linear-gradient(to bottom, #FF6600, #dc2626, #1e3a8a)' }}></div>
+          {/* Vertical Timeline Line */}
+          <div className="absolute top-0 bottom-0 left-[23px] md:left-[31px] w-1.5 z-0 rounded-full shadow-sm" style={{ background: 'linear-gradient(to bottom, #FF6600, #dc2626, #1e3a8a)' }}></div>
 
           {/* Cards Container */}
-          <div className="flex flex-col md:flex-row gap-8 md:gap-10 overflow-x-auto pb-10 pt-2 px-1 timeline-scroll snap-x snap-mandatory hide-scrollbar-mobile md:px-4">
+          <div className="flex flex-col gap-6 md:gap-10 pb-10 pt-2 px-1 md:px-4">
             {stepsToShow.map(step => (
-               <div key={step.id} className="relative flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-8 shrink-0 md:w-[380px] snap-center z-10 pt-0 pl-1 md:pl-0 group">
+               <div key={step.id} className="relative flex flex-row items-start gap-4 md:gap-8 w-full z-10 group">
                   
-                  {/* Node (The Dot) */}
-                  <div className="relative shrink-0 flex items-center justify-center">
+                  {/* Node (The Dot / Badge) */}
+                  <div className="relative shrink-0 flex items-center justify-center mt-6">
                     {/* Pulsing ring for active state */}
                     <div 
                       className={`absolute inset-0 rounded-full transition-all duration-500 ${activeStep === step.id ? 'animate-ping opacity-50' : 'opacity-0'}`}
                       style={{ backgroundColor: step.color }}
                     ></div>
                     
-                    {/* The Dot */}
+                    {/* The Badge */}
                     <div 
-                       className="w-7 h-7 rounded-full border-[5px] border-[#fff8f0] shadow-md transition-all duration-500 relative z-20 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-500"
+                       className="w-10 h-10 md:w-14 md:h-14 rounded-full border-[3px] md:border-[4px] border-[#fff8f0] shadow-md transition-all duration-500 relative z-20 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-500 flex items-center justify-center text-white font-black text-lg md:text-2xl"
                        style={{ 
                          backgroundColor: activeStep === step.id ? step.color : '#cbd5e1',
-                         transform: activeStep === step.id ? 'scale(1.4)' : 'scale(1)',
+                         transform: activeStep === step.id ? 'scale(1.15)' : 'scale(1)',
                          boxShadow: activeStep === step.id ? `0 0 15px ${step.color}80` : ''
                        }}
                        onClick={() => setActiveStep(activeStep === step.id ? null : step.id)}
@@ -120,11 +117,13 @@ const ElectionTimeline = ({ limit }) => {
                        tabIndex="0"
                        aria-label={`Toggle details for phase: ${step.phase}`}
                        aria-expanded={activeStep === step.id}
-                    ></div>
+                    >
+                      {step.id}
+                    </div>
                   </div>
                   
                   {/* Card wrapper */}
-                  <div className="w-full pr-4 md:pr-0">
+                  <div className="flex-1 w-full pt-2">
                      <StepCard 
                        step={step} 
                        isActive={activeStep === step.id} 

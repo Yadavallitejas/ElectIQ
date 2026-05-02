@@ -30,13 +30,7 @@ const StepCard = ({ step, isActive, onClick }) => {
       ></div>
 
       <div className="relative p-6 md:p-8 z-10">
-        <div className="flex justify-between items-start mb-6">
-          <div 
-            className="flex items-center justify-center w-14 h-14 rounded-full text-white font-black text-2xl shadow-lg border-2 border-white transform transition-transform duration-300"
-            style={{ backgroundColor: step.color, transform: isActive ? 'scale(1.1) rotate(-5deg)' : 'scale(1)' }}
-          >
-            {step.id}
-          </div>
+        <div className="flex justify-end mb-4 md:mb-6">
           <div className="flex flex-col items-end">
             <span 
               className="px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-white shadow-sm mb-2"
@@ -50,12 +44,12 @@ const StepCard = ({ step, isActive, onClick }) => {
           </div>
         </div>
 
-        <div className="flex items-start gap-5 mb-2">
-          <div className="text-5xl drop-shadow-md transform transition-transform duration-500" style={{ transform: isActive ? 'scale(1.15) translateY(-2px)' : 'scale(1)' }}>
+        <div className="flex items-start gap-3 md:gap-5 mb-2">
+          <div className="text-2xl md:text-4xl drop-shadow-md transform transition-transform duration-500" style={{ transform: isActive ? 'scale(1.15) translateY(-2px)' : 'scale(1)' }}>
             {step.icon}
           </div>
-          <div className="pt-1">
-            <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight mb-2">{step.title}</h3>
+          <div className="pt-0 md:pt-1">
+            <h3 className="text-lg md:text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight mb-1 md:mb-2">{step.title}</h3>
             {/* Show a hint when collapsed */}
             <div className={`text-xs font-bold uppercase tracking-wider transition-opacity duration-300 ${isActive ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 text-orange-500'}`}>
               Tap to expand ▼
@@ -67,7 +61,7 @@ const StepCard = ({ step, isActive, onClick }) => {
           className={`grid transition-all duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0 mt-0'}`}
         >
           <div className="overflow-hidden">
-            <p className="text-gray-700 text-[15px] leading-relaxed mb-6 font-medium border-l-4 pl-4 rounded-r-lg py-1" style={{ borderColor: step.color, backgroundColor: `${step.color}05` }}>
+            <p className="text-gray-700 text-sm md:text-[15px] leading-relaxed mb-6 font-medium border-l-4 pl-4 rounded-r-lg py-1" style={{ borderColor: step.color, backgroundColor: `${step.color}05` }}>
               {step.description}
             </p>
             

@@ -60,7 +60,7 @@ const VoterChecklist = () => {
           {Array.from({ length: 40 }).map((_, i) => (
             <div 
               key={i} 
-              className="confetti"
+              className={`confetti ${i >= 15 ? 'hidden md:block' : ''}`}
               style={{
                 left: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 3}s`,
@@ -75,15 +75,15 @@ const VoterChecklist = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">Voter Readiness</h3>
           
-          <div className="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 shadow-sm">
-            <span className="text-gray-600 font-bold">{completedCount}/{totalCount}</span>
-            <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div className="flex flex-1 w-full md:w-auto items-center gap-3 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 shadow-sm">
+            <span className="text-gray-600 font-bold whitespace-nowrap">{completedCount}/{totalCount}</span>
+            <div className="flex-1 w-full md:w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
               <div 
                 className={`h-full transition-all duration-700 ease-out ${isComplete ? 'bg-green-500' : 'bg-orange-500'}`}
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <span className="text-sm font-black" style={{ color: isComplete ? '#22c55e' : '#f97316' }}>{progress}%</span>
+            <span className="text-sm font-black whitespace-nowrap" style={{ color: isComplete ? '#22c55e' : '#f97316' }}>{progress}%</span>
           </div>
         </div>
 
@@ -94,7 +94,7 @@ const VoterChecklist = () => {
             return (
               <div 
                 key={item.id} 
-                className={`relative flex items-start p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`relative flex flex-col md:flex-row items-start p-4 gap-3 md:gap-0 rounded-xl border-2 transition-all duration-300 ${
                   isChecked 
                     ? 'bg-green-50/50 border-green-400 shadow-sm' 
                     : 'bg-white border-gray-100 hover:border-orange-300 hover:shadow-md'
@@ -140,7 +140,7 @@ const VoterChecklist = () => {
                   )}
                 </div>
                 
-                <div className="flex-1 pt-0.5">
+                <div className="flex-1 w-full md:w-auto pt-0.5">
                   <div 
                     className={`font-semibold text-lg cursor-pointer transition-colors duration-300 ${isChecked ? 'text-gray-500 line-through' : 'text-gray-800'}`}
                     onClick={() => toggleCheck(item.id)}
@@ -153,7 +153,7 @@ const VoterChecklist = () => {
                       href={item.link} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className={`inline-flex items-center gap-1 mt-2 text-sm font-bold ${isChecked ? 'text-green-600 hover:text-green-700' : 'text-orange-500 hover:text-orange-600'} transition-colors group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-sm`}
+                      className={`inline-flex justify-center md:justify-start w-full md:w-auto items-center gap-1 mt-3 md:mt-2 px-4 py-2 md:p-0 border border-gray-200 md:border-transparent rounded-lg md:rounded-sm text-sm font-bold ${isChecked ? 'text-green-600 hover:text-green-700 bg-green-50 md:bg-transparent border-green-200' : 'text-orange-500 hover:text-orange-600 bg-orange-50 md:bg-transparent border-orange-200'} transition-colors group focus:outline-none focus:ring-2 focus:ring-orange-500`}
                       aria-label={`${item.linkText} (opens in a new tab)`}
                     >
                       {item.linkText}

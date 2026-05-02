@@ -34,8 +34,8 @@ Follow these steps to run the ElectIQ platform locally.
 ### 2. Installation
 Clone the repository and install the dependencies:
 ```bash
-git clone https://github.com/yourusername/electiq.git
-cd electiq
+git clone https://github.com/Yadavallitejas/ElectIQ.git
+cd ElectIQ
 npm install
 ```
 
@@ -45,7 +45,6 @@ Create a `.env` file in the root directory and add your API keys and Firebase co
 ```env
 # AI Providers
 VITE_GEMINI_API_KEY=your_gemini_api_key
-VITE_GROQ_API_KEY=your_groq_api_key
 
 # Firebase Configuration
 VITE_FIREBASE_API_KEY=your_firebase_api_key

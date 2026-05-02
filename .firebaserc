@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "noticedecoder"
+    "default": "electiq-ce557",
+    "electiq": "electiq-ce557"
   },
   "targets": {},
   "etags": {}
