@@ -85,12 +85,12 @@ firebase deploy --only hosting
 
 ## 📸 Screenshots
 
-*(Placeholder for Screenshots)*
-
-*   **Home Page:** [Placeholder: Screenshot of the Hero section with the Ask/Explore CTAs]
-*   **Timeline:** [Placeholder: Screenshot of the expanded Election Timeline phase]
-*   **Chat Assistant:** [Placeholder: Screenshot of the AI answering a voter registration question]
-*   **Voter Guide:** [Placeholder: Screenshot of the completed Voter Checklist and Confetti animation]
+*   **Home Page:** 
+    ![Home Page](./assets/homepage.png)
+*   **Chat Assistant:** 
+    ![Chat Assistant](./assets/chat.png)
+*   **Voter Guide:** 
+    ![Voter Guide](./assets/voter%20guide.png)
 
 ---
 *Disclaimer: ElectIQ is an educational tool. For official election information, always refer to the [Election Commission of India website](https://eci.gov.in).*

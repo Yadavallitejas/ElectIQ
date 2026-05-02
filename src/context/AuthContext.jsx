@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Error signing in with Google", error);
+      alert(`Sign in failed: ${error.message}`);
     }
   };
 

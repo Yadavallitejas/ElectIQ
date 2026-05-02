@@ -12,5 +12,13 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "NoticeDecoder",
+        "supportEmail": "tejasyadavalli17@gmail.com"
+      }
+    }
   }
 }
