@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from '../services/firebaseConfig';
 import { GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingDots from '../components/LoadingDots';
 
 const AuthContext = createContext();
 
@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingDots />;
   }
 
   return (

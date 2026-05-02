@@ -1,41 +1,29 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import About from './pages/About';
+import LoadingDots from './components/LoadingDots';
 
-const History = React.lazy(() => import('./pages/History'));
-
-function ProtectedRoute({ children }) {
-  const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-}
+const HowElectionsWork = React.lazy(() => import('./pages/HowElectionsWork'));
+const AskAnything = React.lazy(() => import('./pages/AskAnything'));
+const VoterGuide = React.lazy(() => import('./pages/VoterGuide'));
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50 flex flex-col w-full">
+        <div className="min-h-screen bg-gray-50 flex flex-col w-full font-sans">
           <Toaster position="top-right" />
           <Navbar />
           <main className="flex-1">
-            <Suspense fallback={<div className="p-12 text-center text-gray-500">Loading page...</div>}>
+            <Suspense fallback={<div className="h-40 flex items-center justify-center"><LoadingDots /></div>}>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route 
-                  path="/history" 
-                  element={
-                    <ProtectedRoute>
-                      <History />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route path="/about" element={<About />} />
+                <Route path="/how-it-works" element={<HowElectionsWork />} />
+                <Route path="/ask" element={<AskAnything />} />
+                <Route path="/voter-guide" element={<VoterGuide />} />
               </Routes>
             </Suspense>
           </main>
