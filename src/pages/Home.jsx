@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { quickFacts } from '../data/electionData';
 
 const Home = () => {
   return (
@@ -58,6 +59,21 @@ const Home = () => {
           <Link to="/voter-guide" className="text-orange-500 font-semibold hover:text-orange-600 flex items-center justify-center gap-1">
             Check readiness <span>→</span>
           </Link>
+        </div>
+      </div>
+
+      {/* Quick Facts Section */}
+      <div className="py-16 bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-10">Did you know?</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {quickFacts.map((item, index) => (
+              <div key={index} className="flex flex-col items-center p-4 bg-orange-50 rounded-xl">
+                <span className="text-4xl mb-3">{item.emoji}</span>
+                <span className="text-gray-700 font-medium">{item.fact}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

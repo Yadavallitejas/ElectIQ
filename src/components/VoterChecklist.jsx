@@ -42,8 +42,19 @@ const VoterChecklist = () => {
                 onChange={() => toggleCheck(item.id)}
               />
             </div>
-            <span className={`${checkedItems[item.id] ? 'text-gray-800 font-medium' : 'text-gray-600'}`}>
-              {item.text}
+            <span className={`${checkedItems[item.id] ? 'text-gray-800 font-medium' : 'text-gray-600'} flex-1`}>
+              {item.task}
+              {item.link && (
+                <a 
+                  href={item.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="ml-2 text-orange-500 hover:text-orange-600 text-sm hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  ({item.linkText})
+                </a>
+              )}
             </span>
           </label>
         ))}
