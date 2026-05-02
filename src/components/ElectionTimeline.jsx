@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import StepCard from './StepCard';
 import { electionSteps } from '../data/electionData';
 
-const ElectionTimeline = () => {
+const ElectionTimeline = ({ limit }) => {
   const [activeStep, setActiveStep] = useState(null);
   const [progress, setProgress] = useState(0);
+
+  const stepsToShow = limit ? electionSteps.slice(0, limit) : electionSteps;
 
   // Animate progress bar on mount
   useEffect(() => {
@@ -88,7 +90,7 @@ const ElectionTimeline = () => {
 
           {/* Cards Container */}
           <div className="flex flex-col md:flex-row gap-8 md:gap-10 overflow-x-auto pb-10 pt-2 px-1 timeline-scroll snap-x snap-mandatory hide-scrollbar-mobile md:px-4">
-            {electionSteps.map(step => (
+            {stepsToShow.map(step => (
                <div key={step.id} className="relative flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-8 shrink-0 md:w-[380px] snap-center z-10 pt-0 pl-1 md:pl-0 group">
                   
                   {/* Node (The Dot) */}
